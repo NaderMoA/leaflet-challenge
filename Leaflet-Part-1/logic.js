@@ -37,7 +37,7 @@ let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         });
 
         // Bind popup to circle marker
-        circleMarker.bindTooltip(`Click for more Info`);
+        circleMarker.bindTooltip(`Click here for more Info`);
 
         circleMarker.on('click', function(){
         circleMarker.bindPopup(`Magnitude: ${mag} <br> Depth: ${depth} <br> Location: ${location}`).openPopup();
