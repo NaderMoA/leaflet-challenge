@@ -14,11 +14,19 @@ let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     zoom: 5.5,
     layers: [street]
  });
-
+ function colorScale(depth){
+    if(depth > 90) { return "#FF3300"  }
+    else if(depth > 70) { return "#FF9966" }
+    else if(depth > 50) {return "#FFCC66"}
+    else if(depth > 30) {return "#CCFF66"}
+    else if(depth > 10) {return "#66FF33"}
+    else  {return "#006400"}
+    }
  L.geoJSON(earthquake, {
     pointToLayer: function(feature, coords){
         let mag = feature.properties.mag;
         let depth = feature.geometry.coordinates[2];
+        let location = feature.properties.place;
         let circleMarker = L.circleMarker(coords, {
             radius: mag * 4,
             fillColor: colorScale(depth),
@@ -29,24 +37,16 @@ let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         });
 
         // Bind popup to circle marker
-        circleMarker.bindPopup(`Magnitude: ${mag} <br> Depth: ${depth}`);
+        circleMarker.bindTooltip(`Click for more Info`);
 
-        
         circleMarker.on('click', function(){
-            circleMarker.openPopup();
-        });
+        circleMarker.bindPopup(`Magnitude: ${mag} <br> Depth: ${depth} <br> Location: ${location}`).openPopup();
+                });
 
         return circleMarker;
     }
 }).addTo(myMap);
 }
-function colorScale(depth){
-if(depth > 90) { return "#FF3300"  }
-else if(depth > 70) { return "#FF9966" }
-else if(depth > 50) {return "#FFCC66"}
-else if(depth > 30) {return "#CCFF66"}
-else if(depth > 10) {return "#66FF33"}
-else  {return "#006400"}
-}
+
 })
 
