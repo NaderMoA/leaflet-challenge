@@ -46,6 +46,27 @@ let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         return circleMarker;
     }
 }).addTo(myMap);
+
+let legend = L.control({ position: 'bottomright' });
+
+legend.onAdd = function(map) {
+    let div = L.DomUtil.create('div', 'info legend');
+    let grades = [-10, 10, 30, 50, 70, 90];
+    let colors = ["#006400", "#66FF33", "#CCFF66", "#FFCC66", "#FF9966", "#FF3300"];
+    div.style.backgroundColor="#FFFFFF"
+    div.style.padding="10px"
+    div.innerHTML += '<h4>Depth</h4>';
+    // loop through our depth intervals and generate a label with a colored square for each interval
+    for (let i = 0; i < colors.length; i++) {
+        div.innerHTML +=
+            "<i style='background: " + colors[i] + "'>" +"___" +"</i>" + grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+           
+    }
+
+    return div;
+};
+legend.addTo(myMap);
+
 }
 
 })
